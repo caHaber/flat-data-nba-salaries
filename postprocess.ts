@@ -9,5 +9,9 @@ const players: any = table_to_csv("player-contracts", html);
 
 console.log(players);
 
+const player_stats_html = await Deno.readTextFile("per_game_players.html");
+
+const player_stats = table_to_csv("per_game_stats", player_stats_html);
+
+await Deno.writeTextFile("per_game_stats.csv", player_stats);
 await Deno.writeTextFile("salaries.csv", players);
-await removeFile(filename);
