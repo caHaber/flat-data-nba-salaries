@@ -10,5 +10,5 @@ const player_stats_html = await Deno.readTextFile("per_game_players.html");
 
 const player_stats = table_to_csv("per_game_stats", player_stats_html, 0);
 
-await Deno.writeTextFile("./data/per_game_stats.csv", player_stats);
-await Deno.writeTextFile("./data/salaries.csv", players);
+await Deno.writeTextFile("./public/data/per_game_stats.csv", player_stats);
+await Deno.writeTextFile("./public/data/salaries.csv", players);

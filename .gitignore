@@ -1,2 +1,6 @@
 players.html
 per_game_players.html
+/node_modules/
+/public/build/
+
+.DS_Store
