@@ -6,7 +6,7 @@ on:
   push:
     paths:
       - .github/workflows/flat.yml
-      - ./postprocess.ts
+      - ./postprocess/postprocess.ts
 jobs:
   scheduled:
     runs-on: ubuntu-latest
@@ -25,4 +25,4 @@ jobs:
         with:
           http_url: https://www.basketball-reference.com/contracts/players.html
           downloaded_filename: players.html
-          postprocess: ./postprocess.ts
+          postprocess: ./postprocess/postprocess.ts
