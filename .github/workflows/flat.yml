@@ -20,9 +20,9 @@ jobs:
         with:
           http_url: https://www.basketball-reference.com/leagues/NBA_2022_per_game.html
           downloaded_filename: per_game_players.html
-          postprocess: ./postprocess.ts
       - name: Fetch data
         uses: githubocto/flat@v2
         with:
           http_url: https://www.basketball-reference.com/contracts/players.html
           downloaded_filename: players.html
+          postprocess: ./postprocess.ts
