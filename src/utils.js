@@ -1,3 +1,12 @@
+export const YEARS = [
+  "2021-22",
+  "2022-23",
+  "2023-24",
+  "2024-25",
+  "2025-26",
+  "2026-27",
+];
+
 export function moneyStrToNumber(d) {
   return +d.replaceAll(",", "").replace("$", "");
 }
