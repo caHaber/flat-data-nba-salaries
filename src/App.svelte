@@ -6,7 +6,6 @@
   import colors from "./team_colors.js";
   import { writable } from "svelte/store";
 
-  let key;
   let keyCode;
   let svg;
 
@@ -19,7 +18,6 @@
   let zoomTransform = writable({ k: 1, x: 0, y: 0 });
 
   function handleKeydown(event) {
-    key = event.key;
     keyCode = event.keyCode;
     if (keyCode === 32) {
       let index = YEARS.indexOf(value);
@@ -53,35 +51,21 @@
     return pack;
   };
 
-  function zoomed({ transform }) {
-    console.log(transform);
-    zoomTransform.set(transform);
-  }
-
   onMount(async () => {
     data = await d3.csv("/data/salaries.csv", parseRawSalaries);
-
-    d3.select(svg).call(
-      d3
-        .zoom()
-        .extent([
-          [0, 0],
-          [width, height],
-        ])
-        .scaleExtent([1, 2])
-        .on("zoom", zoomed)
-    );
   });
 </script>
 
 <svelte:window on:keydown={handleKeydown} />
 <main>
-  <h1>NBA Salaries</h1>
-  <select bind:value>
-    {#each YEARS as item}
-      <option value={item}>{item}</option>
-    {/each}
-  </select>
+  <div class="header">
+    <h1>NBA Salaries</h1>
+    <select bind:value>
+      {#each YEARS as item}
+        <option value={item}>{item}</option>
+      {/each}
+    </select>
+  </div>
   <svg viewBox="0,0,{width},{height}" bind:this={svg} {width} {height}>
     <g
       id="container"
