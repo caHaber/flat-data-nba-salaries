@@ -4,6 +4,7 @@
   import { parseRawSalaries, YEARS } from "./utils";
   import Circle from "./Circle.svelte";
   import colors from "./team_colors.js";
+  import { writable } from "svelte/store";
 
   let key;
   let keyCode;
@@ -15,6 +16,7 @@
 
   let data;
   let sizeScale;
+  let zoomTransform = writable({ k: 1, x: 0, y: 0 });
 
   function handleKeydown(event) {
     key = event.key;
@@ -28,8 +30,6 @@
       }
     }
   }
-
-  //   .on("zoom", zoomed));
 
   let createCircles = function (datum, year) {
     sizeScale = d3
@@ -54,25 +54,21 @@
   };
 
   function zoomed({ transform }) {
-    let container = d3.select(".container");
-    if (container)
-      container.attr("transform", (d) => {
-        console.log({ container });
-        return `translate(${transform.apply(d)})`;
-      });
+    console.log(transform);
+    zoomTransform.set(transform);
   }
 
   onMount(async () => {
     data = await d3.csv("/data/salaries.csv", parseRawSalaries);
 
-    d3.select("svg").call(
+    d3.select(svg).call(
       d3
         .zoom()
         .extent([
           [0, 0],
           [width, height],
         ])
-        .scaleExtent([1, 8])
+        .scaleExtent([1, 2])
         .on("zoom", zoomed)
     );
   });
@@ -86,8 +82,11 @@
       <option value={item}>{item}</option>
     {/each}
   </select>
-  <svg bind:this={svg} {width} {height}>
-    <g class="container" transform="translate(1,1)">
+  <svg viewBox="0,0,{width},{height}" bind:this={svg} {width} {height}>
+    <g
+      id="container"
+      transform="scale({$zoomTransform.k}) translate({$zoomTransform.x},{$zoomTransform.y})"
+    >
       {#if data}
         {#each createCircles(data, value).leaves() as circle, i}
           <Circle
